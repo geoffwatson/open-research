@@ -1,4 +1,4 @@
-# Open Rresearch #
+# Open Research #
 
 The goal of this project is to create, catalog, and track progress on AI research ideas that I have. Ideally, others will also contribute with their own ideas and/or implementations of my incomplete ideas.  Feel free to create pull requests.
 
