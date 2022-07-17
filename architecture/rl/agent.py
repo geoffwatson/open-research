@@ -16,10 +16,10 @@ class AgentConfig:
         learn_every: int = 3,
         sync_every: int = 1e4,
     ) -> None:
-        self.save_every = 5e5  # no. of experiences between saving Mario Net
-        self.burnin = 1e4  # min. experiences before training
-        self.learn_every = 3  # no. of experiences between updates to Q_online
-        self.sync_every = 1e4  # no. of experiences between Q_target & Q_online sync
+        self.save_every = save_every  # no. of experiences between saving Mario Net
+        self.burnin = burnin  # min. experiences before training
+        self.learn_every = learn_every  # no. of experiences between updates to Q_online
+        self.sync_every = sync_every  # no. of experiences between Q_target & Q_online sync
 
     def should_sync(self, current_step: int) -> bool:
         return current_step % self.sync_every == 0

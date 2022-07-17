@@ -1,9 +1,10 @@
 # !pip install gym-super-mario-bros==7.3.0
+import datetime
 from pathlib import Path
 
+from gym.wrappers import FrameStack
 import torch
 
-import datetime
 
 from architecture.rl.metrics import MetricLogger
 from architecture.rl.agent import Agent
@@ -11,7 +12,6 @@ from architecture.rl.action import EpsilonGreedyActionSelector
 from architecture.rl.env import SkipFrame
 from architecture.rl.env import GrayScaleObservation
 from architecture.rl.env import ResizeObservation
-from architecture.rl.env import FrameStack
 from architecture.rl.network import MarioNet
 from architecture.rl.memory import Memory
 from architecture.rl.network import QValueEstimator
@@ -78,7 +78,7 @@ class Orchestrator:
         use_cuda = torch.cuda.is_available()
 
         env.reset()
-        next_state, reward, done, info = env.step(action=0)
+        next_state, reward, done, info = env.step(env.action_space.sample())
         if self.debug:
             print(f"{next_state.shape},\n {reward},\n {done},\n {info}\n")
         memory = Memory(max_size=100000, use_cuda=use_cuda)
@@ -107,7 +107,7 @@ class Orchestrator:
         )
 
     def initialize_env(self):
-        env = gym_super_mario_bros.make("SuperMarioBros-1-1-v0")
+        env = gym_super_mario_bros.make("SuperMarioBros-1-1-v3")
         env = self.apply_env_wrappers(env)
         return env
 
@@ -115,9 +115,8 @@ class Orchestrator:
         env = SkipFrame(env, skip=4)
         env = GrayScaleObservation(env)
         env = ResizeObservation(env, shape=84)
-        env = FrameStack(env, num_stack=4)
+        env = FrameStack(env, 4)
 
-        env = JoypadSpace(env, [["right"], ["right", "A"]])
         return env
 
     def evaluate(self, agent: Agent) -> None:

@@ -28,7 +28,7 @@ class EpsilonGreedyActionSelector(ActionSelector):
             if self.use_cuda:
                 state = state.cuda()
             state = state.unsqueeze(0)
-            action_values = network(state, model="online")
+            action_values = network(state, model_type="online")
 
             action_idx = torch.argmax(action_values, dim=1).item()
 
