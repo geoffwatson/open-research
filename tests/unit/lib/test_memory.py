@@ -6,11 +6,11 @@ import gym
 
 
 def test_memory_post_processor() -> None:
-    env = gym.make('CartPole-v1')
+    env = gym.make('CartPole-v1', new_step_api=True)
     memory = Memory()
 
     for i in range(100):
-        state, info = env.reset()
+        state = env.reset()
         done = False
         record_state = True
         first = True
@@ -34,3 +34,6 @@ def test_memory_post_processor() -> None:
     for episode in results:
         for transition in episode.transitions:
             print(f'Reward: {transition.reward}')
+
+
+test_memory_post_processor()
