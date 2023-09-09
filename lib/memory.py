@@ -1,10 +1,12 @@
+from typing import Optional
+
 import numpy as np
 
 
 class Transition:
     def __init__(
       self,
-      state: np.ndarray | None,
+      state: np.ndarray,
       action: np.ndarray,
       reward: float,
       next_state: np.ndarray,
@@ -35,7 +37,7 @@ class Memory:
 
     def record(
         self,
-        state: np.ndarray | None,
+        state: Optional[np.ndarray],
         action: np.ndarray,
         reward: float,
         next_state: np.ndarray,
@@ -73,7 +75,7 @@ class MemoryPostProcessor:
                             np.stack(next_states, axis=0),
                         ))
                         states, actions, reward, next_states = [], [], 0, []
-                states.append(state)
+                    states.append(state)
                 actions.append([transition.action])
                 reward = reward + transition.reward
                 next_states.append(transition.next_state)
