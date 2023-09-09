@@ -12,7 +12,6 @@ def test_memory_post_processor() -> None:
     for i in range(100):
         state = env.reset()
         done = False
-        record_state = True
         first = True
         while not done:
             action = env.action_space.sample()
@@ -23,7 +22,6 @@ def test_memory_post_processor() -> None:
                 first = False
             else:
                 memory.record(None, action, reward, next_state)
-            record_state = not record_state
             state = next_state
         memory.terminate_episode()
 
